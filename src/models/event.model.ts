@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Response} from './response.model';
 
 @model()
@@ -9,6 +9,12 @@ export class Event extends Entity {
     required: true,
   })
   dates: object[];
+
+  @property({
+    type: 'boolean',
+    default: true,
+  })
+  active?: boolean;
 
   @property({
     type: 'string',
