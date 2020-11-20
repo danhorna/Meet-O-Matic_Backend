@@ -3,6 +3,13 @@ import {Entity, model, property} from '@loopback/repository';
 @model()
 export class Event extends Entity {
   @property({
+    type: 'array',
+    itemType: 'object',
+    required: true,
+  })
+  dates: object[];
+
+  @property({
     type: 'string',
     id: true,
     generated: true,
@@ -22,13 +29,6 @@ export class Event extends Entity {
   description: string;
 
   @property({
-    type: 'array',
-    itemType: 'any',
-    required: true,
-  })
-  dates: any[];
-
-  @property({
     type: 'string',
     required: true,
   })
@@ -38,6 +38,12 @@ export class Event extends Entity {
     type: 'string',
   })
   usereventId?: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  creationDate: string;
 
 
   constructor(data?: Partial<Event>) {
