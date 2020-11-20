@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Response} from './response.model';
 
 @model()
 export class Event extends Entity {
@@ -45,6 +46,8 @@ export class Event extends Entity {
   })
   creationDate: string;
 
+  @hasMany(() => Response)
+  responses: Response[];
 
   constructor(data?: Partial<Event>) {
     super(data);
