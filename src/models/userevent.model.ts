@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany, hasOne} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {Event} from './event.model';
 import {UserCredentials} from './user-credentials.model';
 
@@ -22,6 +22,12 @@ export class Userevent extends Entity {
     generated: true,
   })
   id?: string;
+
+  @property({
+    type: 'boolean',
+    default: false,
+  })
+  premium?: boolean;
 
   @hasMany(() => Event)
   events: Event[];
