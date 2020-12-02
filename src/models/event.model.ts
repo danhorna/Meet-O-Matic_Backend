@@ -43,6 +43,12 @@ export class Event extends Entity {
 
   @property({
     type: 'string',
+    required: true,
+  })
+  auth: string;
+
+  @property({
+    type: 'string',
   })
   usereventId?: string;
 

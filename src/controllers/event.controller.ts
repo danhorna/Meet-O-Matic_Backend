@@ -1,29 +1,29 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+  patch, post,
   put,
-  del,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {Event} from '../models';
+import {Email} from '../models/email.model';
 import {EventRepository} from '../repositories';
+var nodemailer = require("nodemailer")
 
 export class EventController {
   constructor(
     @repository(EventRepository)
-    public eventRepository : EventRepository,
-  ) {}
+    public eventRepository: EventRepository,
+  ) { }
 
   @post('/events', {
     responses: {
@@ -106,6 +106,7 @@ export class EventController {
     return this.eventRepository.updateAll(event, where);
   }
 
+  @authenticate('jwt')
   @get('/events/{id}', {
     responses: {
       '200': {
@@ -123,6 +124,26 @@ export class EventController {
     @param.filter(Event, {exclude: 'where'}) filter?: FilterExcludingWhere<Event>
   ): Promise<Event> {
     return this.eventRepository.findById(id, filter);
+  }
+
+  @get('/results/{id}')
+  async canAccess(
+    @param.path.string('id') id: string,
+    @param.query.string('auth') auth: string
+  ): Promise<boolean> {
+    if (auth == null) {
+      return false
+    }
+    var event
+    try {
+      event = await this.eventRepository.findById(id)
+    }
+    catch (err) {
+      return false
+    }
+    if (event['password'] == auth)
+      return true
+    return false
   }
 
   @patch('/events/{id}', {
@@ -169,5 +190,48 @@ export class EventController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.eventRepository.deleteById(id);
+  }
+
+  @post('/sendemail', {
+    responses: {
+      '200': {
+        description: 'email'
+      }
+    }
+  })
+  sendEmail(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Email, {partial: true})
+        }
+      }
+    })
+    email: Email
+  ) {
+    console.log(email)
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "mailtotestsomethings@gmail.com",
+        pass: "iawbackend"
+      }
+    })
+
+    var mailOptions = {
+      from: "Meet-O-Matic <mailtotestsomethings@gmail.com>",
+      to: email['recipients'],
+      subject: "ENviando desde nodemailer",
+      text: "Fuiste invitado a completar un formulario. Accedé desde " + email['eventurl'] + ". Contraseña: " + email['password'],
+      html: "<h1>Fuiste invitado a completar un formulario</h1><p>Accedé desde <a href='" + email['eventurl'] + "'>acá</a></p><p>Contraseña: " + email['password'] + "</p>"
+    }
+    transporter.sendMail(mailOptions, (error: any, info: any) => {
+      if (error) {
+        console.log('No se pudo enviar el mail')
+      }
+      else {
+        console.log('Mail enviado correctamente')
+      }
+    })
   }
 }
