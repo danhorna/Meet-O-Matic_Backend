@@ -1,4 +1,3 @@
-import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -106,7 +105,6 @@ export class EventController {
     return this.eventRepository.updateAll(event, where);
   }
 
-  @authenticate('jwt')
   @get('/events/{id}', {
     responses: {
       '200': {
