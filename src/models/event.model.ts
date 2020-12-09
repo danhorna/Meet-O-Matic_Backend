@@ -53,10 +53,10 @@ export class Event extends Entity {
   usereventId?: string;
 
   @property({
-    type: 'string',
-    required: true,
+    type: 'date',
+    default: new Date()
   })
-  creationDate: string;
+  creationDate?: Date;
 
   @hasMany(() => Response)
   responses: Response[];

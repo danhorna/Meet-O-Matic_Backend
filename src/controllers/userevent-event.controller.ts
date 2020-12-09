@@ -74,8 +74,15 @@ export class UsereventEventController {
         },
       },
     }) event: Omit<Event, 'id'>,
-  ): Promise<Event> {
-    return this.usereventRepository.events(id).create(event);
+  ): Promise<Event | boolean> {
+    const events = await this.usereventRepository.events(id).find()
+    const user = await this.usereventRepository.findById(id)
+    //verificamos por back que no supere los 10 eventos | true en premium
+    if (events.length < 10 || user['premium']){
+      event['creationDate'] = new Date()
+      return this.usereventRepository.events(id).create(event);
+    }
+    return false
   }
 
   @patch('/userevents/{id}/events', {
