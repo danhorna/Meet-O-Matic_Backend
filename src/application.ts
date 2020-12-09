@@ -71,8 +71,6 @@ export class BackendApplication extends BootMixin(
     this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher);
     this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTCustomService);
     this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
-    this.bind(CustomAuthorizeProvider.AUTHORIZE_PROVIDER)
-      .toProvider(Customauthorize).tag(AuthorizationTags.AUTHORIZER);
 
   }
 }

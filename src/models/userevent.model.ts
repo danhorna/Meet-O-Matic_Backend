@@ -28,6 +28,12 @@ export class Userevent extends Entity {
     default: false,
   })
   premium?: boolean;
+  
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  roles?: string[];
 
   @hasMany(() => Event)
   events: Event[];

@@ -68,7 +68,8 @@ export class MyUserService implements UserService<Userevent, Credentials> {
       [securityId]: String(user.id),
       email: user.email,
       name: userName,
-      id: user.id
+      id: user.id,
+      roles: user.roles
     };
 
     return userProfile;

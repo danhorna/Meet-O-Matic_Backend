@@ -20,7 +20,15 @@ import {
   Event,
 } from '../models';
 import {UsereventRepository} from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import { authorize } from '@loopback/authorization';
+import { checkAuthorization } from '../services/checkauthorization';
 
+@authenticate('jwt')
+@authorize({
+  allowedRoles: ['normal'],
+  voters: [checkAuthorization]
+})
 export class UsereventEventController {
   constructor(
     @repository(UsereventRepository) protected usereventRepository: UsereventRepository,
