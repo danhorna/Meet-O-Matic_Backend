@@ -1,14 +1,10 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-
 const config = {
   name: 'mongodb',
   connector: 'mongodb',
-  url: '',
-  host: 'localhost',
-  port: 27017,
-  user: '',
-  password: '',
+  url: 'mongodb+srv://wwyuser:wwynever@cluster0.e8gtq.mongodb.net/iawbackendfinal?retryWrites=true&w=majority',
+  protocol: "mongodb+srv",
   database: 'iawbackendfinal',
   useNewUrlParser: true
 };
