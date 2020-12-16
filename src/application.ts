@@ -21,6 +21,7 @@ import {JWTCustomService} from './services/jwtcustomservice';
 import {MyUserService} from './services/user.service';
 import {Customauthorize} from './services/custom-authorize';
 import {MongodbDataSource} from './datasources';
+import * as dotenv from 'dotenv';
 
 export {ApplicationConfig};
 
@@ -29,6 +30,9 @@ export class BackendApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+
+    // Set up dotenv
+    dotenv.config();
 
     // Set up the custom sequence
     this.sequence(MySequence);

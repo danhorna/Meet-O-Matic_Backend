@@ -70,41 +70,41 @@ export class EventResponseController {
     return this.eventRepository.responses(id).create(response);
   }
 
-  @patch('/events/{id}/responses', {
-    responses: {
-      '200': {
-        description: 'Event.Response PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async patch(
-    @param.path.string('id') id: string,
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Response, {partial: true}),
-        },
-      },
-    })
-    response: Partial<Response>,
-    @param.query.object('where', getWhereSchemaFor(Response)) where?: Where<Response>,
-  ): Promise<Count> {
-    return this.eventRepository.responses(id).patch(response, where);
-  }
+  // @patch('/events/{id}/responses', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Event.Response PATCH success count',
+  //       content: {'application/json': {schema: CountSchema}},
+  //     },
+  //   },
+  // })
+  // async patch(
+  //   @param.path.string('id') id: string,
+  //   @requestBody({
+  //     content: {
+  //       'application/json': {
+  //         schema: getModelSchemaRef(Response, {partial: true}),
+  //       },
+  //     },
+  //   })
+  //   response: Partial<Response>,
+  //   @param.query.object('where', getWhereSchemaFor(Response)) where?: Where<Response>,
+  // ): Promise<Count> {
+  //   return this.eventRepository.responses(id).patch(response, where);
+  // }
 
-  @del('/events/{id}/responses', {
-    responses: {
-      '200': {
-        description: 'Event.Response DELETE success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async delete(
-    @param.path.string('id') id: string,
-    @param.query.object('where', getWhereSchemaFor(Response)) where?: Where<Response>,
-  ): Promise<Count> {
-    return this.eventRepository.responses(id).delete(where);
-  }
+  // @del('/events/{id}/responses', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Event.Response DELETE success count',
+  //       content: {'application/json': {schema: CountSchema}},
+  //     },
+  //   },
+  // })
+  // async delete(
+  //   @param.path.string('id') id: string,
+  //   @param.query.object('where', getWhereSchemaFor(Response)) where?: Where<Response>,
+  // ): Promise<Count> {
+  //   return this.eventRepository.responses(id).delete(where);
+  // }
 }

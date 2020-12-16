@@ -48,19 +48,19 @@ export class EventController {
     return this.eventRepository.create(event);
   }
 
-  @get('/events/count', {
-    responses: {
-      '200': {
-        description: 'Event model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async count(
-    @param.where(Event) where?: Where<Event>,
-  ): Promise<Count> {
-    return this.eventRepository.count(where);
-  }
+  // @get('/events/count', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Event model count',
+  //       content: {'application/json': {schema: CountSchema}},
+  //     },
+  //   },
+  // })
+  // async count(
+  //   @param.where(Event) where?: Where<Event>,
+  // ): Promise<Count> {
+  //   return this.eventRepository.count(where);
+  // }
 
   @get('/events', {
     responses: {
@@ -83,27 +83,27 @@ export class EventController {
     return this.eventRepository.find(filter);
   }
 
-  @patch('/events', {
-    responses: {
-      '200': {
-        description: 'Event PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Event, {partial: true}),
-        },
-      },
-    })
-    event: Event,
-    @param.where(Event) where?: Where<Event>,
-  ): Promise<Count> {
-    return this.eventRepository.updateAll(event, where);
-  }
+  // @patch('/events', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Event PATCH success count',
+  //       content: {'application/json': {schema: CountSchema}},
+  //     },
+  //   },
+  // })
+  // async updateAll(
+  //   @requestBody({
+  //     content: {
+  //       'application/json': {
+  //         schema: getModelSchemaRef(Event, {partial: true}),
+  //       },
+  //     },
+  //   })
+  //   event: Event,
+  //   @param.where(Event) where?: Where<Event>,
+  // ): Promise<Count> {
+  //   return this.eventRepository.updateAll(event, where);
+  // }
 
   @get('/events/{id}', {
     responses: {
@@ -122,26 +122,6 @@ export class EventController {
     @param.filter(Event, {exclude: 'where'}) filter?: FilterExcludingWhere<Event>
   ): Promise<Event> {
     return this.eventRepository.findById(id, filter);
-  }
-
-  @get('/results/{id}')
-  async canAccess(
-    @param.path.string('id') id: string,
-    @param.query.string('auth') auth: string
-  ): Promise<boolean> {
-    if (auth == null) {
-      return false
-    }
-    var event
-    try {
-      event = await this.eventRepository.findById(id)
-    }
-    catch (err) {
-      return false
-    }
-    if (event['password'] == auth)
-      return true
-    return false
   }
 
   @patch('/events/{id}', {
@@ -165,30 +145,30 @@ export class EventController {
     await this.eventRepository.updateById(id, event);
   }
 
-  @put('/events/{id}', {
-    responses: {
-      '204': {
-        description: 'Event PUT success',
-      },
-    },
-  })
-  async replaceById(
-    @param.path.string('id') id: string,
-    @requestBody() event: Event,
-  ): Promise<void> {
-    await this.eventRepository.replaceById(id, event);
-  }
+  // @put('/events/{id}', {
+  //   responses: {
+  //     '204': {
+  //       description: 'Event PUT success',
+  //     },
+  //   },
+  // })
+  // async replaceById(
+  //   @param.path.string('id') id: string,
+  //   @requestBody() event: Event,
+  // ): Promise<void> {
+  //   await this.eventRepository.replaceById(id, event);
+  // }
 
-  @del('/events/{id}', {
-    responses: {
-      '204': {
-        description: 'Event DELETE success',
-      },
-    },
-  })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.eventRepository.deleteById(id);
-  }
+  // @del('/events/{id}', {
+  //   responses: {
+  //     '204': {
+  //       description: 'Event DELETE success',
+  //     },
+  //   },
+  // })
+  // async deleteById(@param.path.string('id') id: string): Promise<void> {
+  //   await this.eventRepository.deleteById(id);
+  // }
 
   @post('/sendemail', {
     responses: {

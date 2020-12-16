@@ -1,13 +1,5 @@
-import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+import {lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-const config = {
-  name: 'mongodb',
-  connector: 'mongodb',
-  url: 'mongodb+srv://wwyuser:wwynever@cluster0.e8gtq.mongodb.net/iawbackendfinal?retryWrites=true&w=majority',
-  protocol: "mongodb+srv",
-  database: 'iawbackendfinal',
-  useNewUrlParser: true
-};
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
@@ -17,12 +9,17 @@ const config = {
 export class MongodbDataSource extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'mongodb';
-  static readonly defaultConfig = config;
 
   constructor(
-    @inject('datasources.config.mongodb', {optional: true})
-    dsConfig: object = config,
   ) {
-    super(dsConfig);
+    const config = {
+      name: 'mongodb',
+      connector: 'mongodb',
+      url: process.env.mongodb,
+      protocol: "mongodb+srv",
+      database: 'iawbackendfinal',
+      useNewUrlParser: true
+    };
+    super(config);
   }
 }

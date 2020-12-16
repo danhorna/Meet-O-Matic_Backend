@@ -22,26 +22,26 @@ export class UsereventController {
     public usereventRepository: UsereventRepository,
   ) {}
 
-  @get('/userevents', {
-    responses: {
-      '200': {
-        description: 'Array of Userevent model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Userevent, {includeRelations: true}),
-            },
-          },
-        },
-      },
-    },
-  })
-  async find(
-    @param.filter(Userevent) filter?: Filter<Userevent>,
-  ): Promise<Userevent[]> {
-    return this.usereventRepository.find(filter);
-  }
+  // @get('/userevents', {
+  //   responses: {
+  //     '200': {
+  //       description: 'Array of Userevent model instances',
+  //       content: {
+  //         'application/json': {
+  //           schema: {
+  //             type: 'array',
+  //             items: getModelSchemaRef(Userevent, {includeRelations: true}),
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // async find(
+  //   @param.filter(Userevent) filter?: Filter<Userevent>,
+  // ): Promise<Userevent[]> {
+  //   return this.usereventRepository.find(filter);
+  // }
 
   @get('/userevents/{id}', {
     responses: {
