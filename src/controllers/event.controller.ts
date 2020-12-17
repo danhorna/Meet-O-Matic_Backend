@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -8,7 +9,7 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, param,
+  getModelSchemaRef, HttpErrors, param,
   patch, post,
   put,
   requestBody
@@ -45,6 +46,9 @@ export class EventController {
     })
     event: Omit<Event, 'id'>,
   ): Promise<Event> {
+    // Evitamos creacion a nombre de un usuario
+    if (event['usereventId'])
+      throw new HttpErrors.UnprocessableEntity('No debe enviar userID')
     return this.eventRepository.create(event);
   }
 
@@ -187,7 +191,6 @@ export class EventController {
     })
     email: Email
   ) {
-    console.log(email)
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

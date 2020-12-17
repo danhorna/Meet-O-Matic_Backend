@@ -8,6 +8,7 @@ import {inject} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
 import {
   getModelSchemaRef,
+  HttpErrors,
   post,
   requestBody,
   SchemaObject
@@ -141,7 +142,10 @@ export class UserController {
       },
     })
     newUserRequest: NewUserRequest,
-  ): Promise<Userevent> {
+  ): Promise<Userevent | boolean> {
+    const alreadyRegistered = await this.userRepository.find({"where": {"email": newUserRequest['email']}})
+    if (alreadyRegistered.length != 0)
+      throw new HttpErrors[409]('Email en uso')
     const password = await hash(newUserRequest.password, await genSalt());
     const savedUser = await this.userRepository.create(
       _.omit(newUserRequest, 'password'),
