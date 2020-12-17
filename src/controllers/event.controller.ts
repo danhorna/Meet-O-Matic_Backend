@@ -202,7 +202,7 @@ export class EventController {
     var mailOptions = {
       from: "Meet-O-Matic <mailtotestsomethings@gmail.com>",
       to: email['recipients'],
-      subject: "Enviando desde nodemailer",
+      subject: "Invitacion a un evento",
       text: "Fuiste invitado a completar un formulario. Accedé desde " + email['eventurl'] + ". Contraseña: " + email['password'],
       html: "<h1>Fuiste invitado a completar un formulario</h1><p>Accedé desde <a href='" + email['eventurl'] + "'>acá</a></p><p>Contraseña: " + email['password'] + "</p>"
     }
