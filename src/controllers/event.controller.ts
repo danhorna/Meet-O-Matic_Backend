@@ -1,17 +1,13 @@
-import { authenticate } from '@loopback/authentication';
 import {
-  Count,
-  CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
-  Where
+  repository
 } from '@loopback/repository';
 import {
-  del, get,
+  get,
   getModelSchemaRef, HttpErrors, param,
   patch, post,
-  put,
+
   requestBody
 } from '@loopback/rest';
 import {Event} from '../models';
